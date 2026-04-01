@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import messagebox, StringVar, Toplevel
 import ttkbootstrap as tb
 from database import (load_programs, save_program, update_program,
-                      delete_program, get_college_codes, program_in_use)
+                      delete_program, get_college_codes, program_in_use,
+                      nullify_students_program)
 from validator import validate_program
 
 NAV    = "#0d1b2a"
@@ -25,19 +26,18 @@ def styled_entry(parent, textvariable, width=24):
 
 
 class ProgramTab:
-    def __init__(self, parent):
+    def __init__(self, parent, student_tab=None):
         self.parent = parent
+        self.student_tab = student_tab
         self.parent.configure(bg=BG)
         self.build_ui()
         self.refresh()
 
     def build_ui(self):
-        # Title
         tk.Label(self.parent, text="Programs",
                  font=("Georgia", 20, "bold"),
                  bg=BG, fg=NAV).pack(anchor="w", padx=25, pady=(20, 5))
 
-        # Toolbar
         toolbar = tk.Frame(self.parent, bg=BG)
         toolbar.pack(fill="x", padx=25, pady=(0, 8))
 
@@ -65,7 +65,6 @@ class ProgramTab:
                   bootstyle="dark", command=self.open_add_dialog,
                   width=14).pack(side="right")
 
-        # Table
         table_frame = tk.Frame(self.parent, bg=BG)
         table_frame.pack(fill="both", expand=True, padx=25, pady=5)
 
@@ -93,17 +92,13 @@ class ProgramTab:
     def refresh(self):
         q    = self.search_var.get().lower()
         sort = self.sort_var.get().lower()
-
         rows = load_programs()
-
         if q:
             rows = [r for r in rows
                     if q in r["code"].lower()
                     or q in r["name"].lower()
                     or q in (r["college"] or "").lower()]
-
         rows.sort(key=lambda r: r.get(sort, "") or "")
-
         self.tree.delete(*self.tree.get_children())
         for i, r in enumerate(rows):
             tag = "even" if i % 2 == 0 else "odd"
@@ -191,10 +186,10 @@ class ProgramTab:
         if not sel:
             return messagebox.showwarning("Warning", "Select a program first.")
         code = self.tree.item(sel[0])["values"][0]
-        if program_in_use(code):
-            return messagebox.showerror("Error",
-                f"Cannot delete '{code}' — students are still enrolled in it.")
         if not messagebox.askyesno("Confirm", f"Delete program '{code}'?"):
             return
+        nullify_students_program(code)
         delete_program(code)
         self.refresh()
+        if self.student_tab:
+            self.student_tab.refresh()

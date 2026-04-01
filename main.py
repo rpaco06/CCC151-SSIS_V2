@@ -83,9 +83,9 @@ def main():
     tk.Label(sidebar, text="v2.0", font=("Segoe UI", 8),
              bg=NAV, fg="#3d5a73").pack(pady=10)
 
-    CollegeTab(frames["Colleges"])
-    ProgramTab(frames["Programs"])
-    StudentTab(frames["Students"])
+    student_tab = StudentTab(frames["Students"])
+    program_tab = ProgramTab(frames["Programs"], student_tab=student_tab)
+    CollegeTab(frames["Colleges"], program_tab=program_tab)
 
     show_tab("Students", nav_buttons["Students"])
     app.mainloop()

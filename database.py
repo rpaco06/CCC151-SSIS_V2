@@ -11,7 +11,7 @@ def get_connection():
     return mysql.connector.connect(**DB_CONFIG)
 
 
-# ── Colleges ─────────────────────────────────────────────────
+#Colleges 
 def load_colleges():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
@@ -70,7 +70,7 @@ def college_in_use(code):
     return count > 0
 
 
-# ── Programs ─────────────────────────────────────────────────
+#Programs
 def load_programs():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
@@ -129,7 +129,7 @@ def program_in_use(code):
     return count > 0
 
 
-# ── Students ─────────────────────────────────────────────────
+#Students
 def load_students(search="", sort="id", page=1, per_page=50):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
@@ -219,3 +219,25 @@ def student_exists(sid):
     cursor.close()
     conn.close()
     return count > 0
+
+def nullify_programs_college(college_code):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE program SET college=NULL WHERE college=%s",
+        (college_code,)
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def nullify_students_program(program_code):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE student SET course=NULL WHERE course=%s",
+        (program_code,)
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
