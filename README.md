@@ -11,7 +11,7 @@ Built with Python (tkinter/ttkbootstrap) and MySQL.
 CREATE DATABASE ssis_v2;
 ```
 
-3. Open `database.py` and change the password to your MySQL root password:
+3. Open `database.py` and `seed_students.py` and change the password to your MySQL root password:
 ```python
 "password": "your_password_here"
 ```
