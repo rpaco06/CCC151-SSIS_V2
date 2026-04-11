@@ -4,7 +4,7 @@ import random
 conn = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="your_password_here",
+    password="iLOVEmyFAMILY<3",
     database="ssis_v2"
 )
 cursor = conn.cursor()

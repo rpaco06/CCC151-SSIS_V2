@@ -3,7 +3,7 @@ import mysql.connector
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "root",
-    "password": "your_password_here",
+    "password": "iLOVEmyFAMILY<3",
     "database": "ssis_v2"
 }
 
