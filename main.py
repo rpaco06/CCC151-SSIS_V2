@@ -11,7 +11,7 @@ WHITE = "#ffffff"
 
 def main():
     app = tb.Window(themename="litera")
-    app.title("Student Information System v2")
+    app.title("SSIS v2 - Student Information System Version 2")
     app.geometry("1100x700")
     app.configure(bg=BG)
 
@@ -34,7 +34,7 @@ def main():
     tk.Label(sidebar, text="SSIS",
              font=("Georgia", 24, "bold"),
              bg=NAV, fg=WHITE).pack(pady=(30, 2), padx=20, anchor="w")
-    tk.Label(sidebar, text="Student Information\nSystem v2",
+    tk.Label(sidebar, text="Student Information\nSystem Version 2",
              font=("Segoe UI", 8),
              bg=NAV, fg="#7a9cc0").pack(padx=20, anchor="w")
 

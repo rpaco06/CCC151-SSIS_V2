@@ -13,7 +13,7 @@ WHITE  = "#ffffff"
 TEXT   = "#1a1a2a"
 GREY   = "#6c757d"
 
-PER_PAGE = 50
+PER_PAGE = 25
 
 
 def styled_entry(parent, textvariable, width=24):
